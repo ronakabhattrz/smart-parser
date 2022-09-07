@@ -9,18 +9,25 @@ class Formatter
   end
 
   def to_string
-    sorted_total_counts.map { |path, count| path_with_count(count, path) }.join("\n")
+    return 'No Results' if page_count.all? { |_key, count| count.empty? }
+
+    output = []
+    page_count.each_pair do |type, counts|
+      output << type
+      sorted(counts).each { |path, count| output << output_text(path, count) }
+    end
+    output.join("\n")
   end
 
   private
 
-  def path_with_count(count, path)
-    "#{path} #{count} visit#{'s' if count.zero? || count > 1}"
-  end
-
   attr_accessor :page_count
 
-  def sorted_total_counts
-    page_count.sort { |a, b| b[1] <=> a[1] }
+  def sorted(counts)
+    counts.sort { |a, b| b[1] <=> a[1] }
+  end
+
+  def output_text(path, count)
+    "#{path} #{count} visit#{'s' if count.zero? || count > 1}"
   end
 end
