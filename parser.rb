@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# handling the parsing process, It co-ordinates accepting the inputs and
-# notifying all the objects required to build the output.
+require_relative './formatter'
+require_relative './page_count'
 class Parser
   def initialize(filename)
     raise ArgumentError, 'a log file must be provided' if filename.nil?
@@ -11,6 +11,8 @@ class Parser
 
   def run
     return empty_message if no_results?
+
+    results
   end
 
   private
@@ -21,12 +23,20 @@ class Parser
     'No results found!'
   end
 
-  def entries
-    File.read(File.expand_path("../#{filename}", __FILE__))
-  end
-
   def no_results?
     entries.size.zero?
+  end
+
+  def entries
+    File.readlines(File.expand_path("../#{filename}", __FILE__))
+  end
+
+  def results
+    Formatter.new(counts).to_string
+  end
+
+  def counts
+    @counts = PageCount.new(entries).all
   end
 end
 
