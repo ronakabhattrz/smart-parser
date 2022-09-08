@@ -10,12 +10,6 @@ all it's dependencies.
 bin/setup
 ```
 
-Once that has completed you can go ahead and run the script like this:
-
-```bash
-./parser.rb logs/webserver.log
-```
-
 If you want to provide a different log file simply change the argument to
 the relative path of the log file you wish to parse.
 
