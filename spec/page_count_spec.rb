@@ -23,12 +23,6 @@ RSpec.describe PageCount do
 
     subject { described_class.new(entries).all }
 
-    it 'returns the paths with a total count' do
-      is_expected.to match(
-        a_hash_including(total: [['/home', 1], ['/about', 1]])
-      )
-    end
-
     describe 'with duplicate IPs across views' do
       let(:entries) do
         ['/home 1.1.1.1', '/home 1.1.1.1', '/about 2.2.2.2', '/about 1.1.1.1']
@@ -38,6 +32,14 @@ RSpec.describe PageCount do
         is_expected.to match(
           a_hash_including(unique: [['/home', 1], ['/about', 2]])
         )
+      end
+    end
+
+    describe 'with empty entries' do
+      let(:entries) { [] }
+
+      it 'returns an empty array' do
+        is_expected.to match(a_hash_including(unique: []))
       end
     end
   end

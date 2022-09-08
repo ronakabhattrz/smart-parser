@@ -23,14 +23,14 @@ RSpec.describe Formatter do
     subject { described_class.new(page_count).to_string }
 
     it 'returns the sorted counts as a string' do
-      is_expected.to eq "total\n/home 2 visits\n/about 1 visit"
+      is_expected.to eq "total\n/home 2 unique views\n/about 1 unique view"
     end
 
     describe 'when the page count is empty' do
       let(:page_count) { { total: [], unique: [] } }
 
       it 'returns No Results' do
-        is_expected.to eq('No Results')
+        is_expected.to eq('No results found!')
       end
     end
   end

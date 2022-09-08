@@ -10,7 +10,6 @@ class PageCount
 
   def all
     {
-      total: total_counts.to_a,
       unique: unique_counts.map { |path, counts| [path, counts.keys.size] }
     }
   end

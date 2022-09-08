@@ -9,7 +9,7 @@ class Formatter
   end
 
   def to_string
-    return 'No Results' if page_count.all? { |_key, count| count.empty? }
+    return 'No results found!' if page_count.all? { |_key, count| count.empty? }
 
     output = []
     page_count.each_pair do |type, counts|
@@ -28,6 +28,6 @@ class Formatter
   end
 
   def output_text(path, count)
-    "#{path} #{count} visit#{'s' if count.zero? || count > 1}"
+    "#{path} #{count} unique view#{'s' if count.zero? || count > 1}"
   end
 end

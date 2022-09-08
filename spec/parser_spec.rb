@@ -12,10 +12,12 @@ RSpec.describe Parser do
       end
     end
 
-    describe 'when the provided file is nil' do
+    describe 'when the provided file is nil or does not exist' do
       it 'raises an error' do
         expect { described_class.new(nil) }
           .to raise_error(ArgumentError, 'a log file must be provided')
+        expect { described_class.new('no.log') }
+          .to raise_error(ArgumentError, 'file does not exist')
       end
     end
   end
@@ -32,7 +34,7 @@ RSpec.describe Parser do
     describe 'with multiple valid log entries' do
       let(:filename) { 'spec/fixtures/count.log' }
 
-      it { is_expected.to eq "total\n/home 2 visits\n/about 1 visit\nunique\n/about 1 visit\n/home 1 visit" }
+      it { is_expected.to eq "unique\n/about 1 unique view\n/home 1 unique view" }
     end
   end
 end

@@ -5,13 +5,12 @@ require_relative './page_count'
 class Parser
   def initialize(filename)
     raise ArgumentError, 'a log file must be provided' if filename.nil?
+    raise ArgumentError, 'file does not exist' unless File.exist?(filename)
 
-    self.filename = filename
+    self.filename = File.expand_path("../#{filename}", __FILE__)
   end
 
   def run
-    return empty_message if no_results?
-
     results
   end
 
@@ -19,16 +18,12 @@ class Parser
 
   attr_accessor :filename
 
-  def empty_message
-    'No results found!'
-  end
-
   def no_results?
     entries.size.zero?
   end
 
   def entries
-    File.readlines(File.expand_path("../#{filename}", __FILE__))
+    File.foreach(filename)
   end
 
   def results
